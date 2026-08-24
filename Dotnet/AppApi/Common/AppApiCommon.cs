@@ -159,6 +159,11 @@ namespace VRCX
             AutoAppLaunchManager.Instance.RunProcessOnce = runProcessOnce;
         }
 
+        public void SetWallpaperPauseSettings(bool enabled, string trigger, string action, bool resumeOnExit)
+        {
+            WallpaperEngineManager.Instance.UpdateSettings(enabled, trigger, action, resumeOnExit);
+        }
+
         public string GetFileBase64(string path)
         {
             if (File.Exists(path))
