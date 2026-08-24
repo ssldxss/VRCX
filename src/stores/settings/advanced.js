@@ -15,6 +15,11 @@ import { watchState } from '../../services/watchState';
 
 import configRepository from '../../services/config';
 import webApiService from '../../services/webapi';
+import {
+    WALLPAPER_PAUSE_KEYS,
+    applyWallpaperPauseSettings,
+    normalizeWallpaperPauseSettings
+} from '../../shared/utils/wallpaperPause';
 
 export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
     const gameStore = useGameStore();
@@ -42,6 +47,10 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
     const enableAppLauncher = ref(true);
     const enableAppLauncherAutoClose = ref(true);
     const enableAppLauncherRunProcessOnce = ref(true);
+    const wallpaperPauseEnabled = ref(false);
+    const wallpaperPauseTrigger = ref('vrchat');
+    const wallpaperPauseAction = ref('stop');
+    const wallpaperPauseResumeOnExit = ref(true);
     const screenshotHelper = ref(true);
     const screenshotHelperModifyFilename = ref(false);
     const screenshotHelperCopyToClipboard = ref(false);
@@ -96,6 +105,10 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
             enableAppLauncherConfig,
             enableAppLauncherAutoCloseConfig,
             enableAppLauncherRunProcessOnceConfig,
+            wallpaperPauseEnabledConfig,
+            wallpaperPauseTriggerConfig,
+            wallpaperPauseActionConfig,
+            wallpaperPauseResumeOnExitConfig,
             screenshotHelperConfig,
             screenshotHelperModifyFilenameConfig,
             screenshotHelperCopyToClipboardConfig,
@@ -136,6 +149,13 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
                 'VRCX_enableAppLauncherRunProcessOnce',
                 true
             ),
+            configRepository.getBool(
+                WALLPAPER_PAUSE_KEYS.enabled,
+                false
+            ),
+            configRepository.getString(WALLPAPER_PAUSE_KEYS.trigger, 'vrchat'),
+            configRepository.getString(WALLPAPER_PAUSE_KEYS.action, 'stop'),
+            configRepository.getBool(WALLPAPER_PAUSE_KEYS.resumeOnExit, true),
             configRepository.getBool('VRCX_screenshotHelper', true),
             configRepository.getBool(
                 'VRCX_screenshotHelperModifyFilename',
@@ -189,6 +209,18 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
         enableAppLauncherAutoClose.value = enableAppLauncherAutoCloseConfig;
         enableAppLauncherRunProcessOnce.value =
             enableAppLauncherRunProcessOnceConfig;
+
+        const wallpaperPauseConfig = normalizeWallpaperPauseSettings({
+            enabled: wallpaperPauseEnabledConfig,
+            trigger: wallpaperPauseTriggerConfig,
+            action: wallpaperPauseActionConfig,
+            resumeOnExit: wallpaperPauseResumeOnExitConfig
+        });
+        wallpaperPauseEnabled.value = wallpaperPauseConfig.enabled;
+        wallpaperPauseTrigger.value = wallpaperPauseConfig.trigger;
+        wallpaperPauseAction.value = wallpaperPauseConfig.action;
+        wallpaperPauseResumeOnExit.value = wallpaperPauseConfig.resumeOnExit;
+
         screenshotHelper.value = screenshotHelperConfig;
         screenshotHelperModifyFilename.value =
             screenshotHelperModifyFilenameConfig;
@@ -217,6 +249,7 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
         sentryErrorReporting.value = sentryErrorReportingConfig === 'true';
 
         handleSetAppLauncherSettings();
+        handleSetWallpaperPauseSettings();
 
         setTimeout(() => {
             if (
@@ -324,6 +357,38 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
             enableAppLauncherRunProcessOnce.value
         );
         handleSetAppLauncherSettings();
+    }
+    async function setWallpaperPauseEnabled() {
+        wallpaperPauseEnabled.value = !wallpaperPauseEnabled.value;
+        await configRepository.setBool(
+            WALLPAPER_PAUSE_KEYS.enabled,
+            wallpaperPauseEnabled.value
+        );
+        handleSetWallpaperPauseSettings();
+    }
+    async function setWallpaperPauseTrigger(value) {
+        wallpaperPauseTrigger.value = value;
+        await configRepository.setString(
+            WALLPAPER_PAUSE_KEYS.trigger,
+            value
+        );
+        handleSetWallpaperPauseSettings();
+    }
+    async function setWallpaperPauseAction(value) {
+        wallpaperPauseAction.value = value;
+        await configRepository.setString(
+            WALLPAPER_PAUSE_KEYS.action,
+            value
+        );
+        handleSetWallpaperPauseSettings();
+    }
+    async function setWallpaperPauseResumeOnExit() {
+        wallpaperPauseResumeOnExit.value = !wallpaperPauseResumeOnExit.value;
+        await configRepository.setBool(
+            WALLPAPER_PAUSE_KEYS.resumeOnExit,
+            wallpaperPauseResumeOnExit.value
+        );
+        handleSetWallpaperPauseSettings();
     }
     async function setScreenshotHelper() {
         screenshotHelper.value = !screenshotHelper.value;
@@ -778,6 +843,15 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
         );
     }
 
+    function handleSetWallpaperPauseSettings() {
+        applyWallpaperPauseSettings({
+            enabled: wallpaperPauseEnabled.value,
+            trigger: wallpaperPauseTrigger.value,
+            action: wallpaperPauseAction.value,
+            resumeOnExit: wallpaperPauseResumeOnExit.value
+        });
+    }
+
     /**
      * @param {string} videoId
      */
@@ -1111,6 +1185,10 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
         enableAppLauncher,
         enableAppLauncherAutoClose,
         enableAppLauncherRunProcessOnce,
+        wallpaperPauseEnabled,
+        wallpaperPauseTrigger,
+        wallpaperPauseAction,
+        wallpaperPauseResumeOnExit,
         screenshotHelper,
         screenshotHelperModifyFilename,
         screenshotHelperCopyToClipboard,
@@ -1153,6 +1231,10 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
         setEnableAppLauncher,
         setEnableAppLauncherAutoClose,
         setEnableAppLauncherRunProcessOnce,
+        setWallpaperPauseEnabled,
+        setWallpaperPauseTrigger,
+        setWallpaperPauseAction,
+        setWallpaperPauseResumeOnExit,
         setScreenshotHelper,
         setScreenshotHelperModifyFilename,
         setScreenshotHelperCopyToClipboard,
@@ -1177,6 +1259,7 @@ export const useAdvancedSettingsStore = defineStore('AdvancedSettings', () => {
         setNotificationOpacity,
         getSqliteTableSizes,
         handleSetAppLauncherSettings,
+        handleSetWallpaperPauseSettings,
         lookupYouTubeVideo,
         translateText,
         fetchAvailableModels,

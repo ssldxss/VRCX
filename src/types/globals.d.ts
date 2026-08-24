@@ -212,6 +212,12 @@ declare global {
             killOnExit: boolean,
             runProcessOnce: boolean
         ): Promise<void>;
+        SetWallpaperPauseSettings(
+            enabled: boolean,
+            trigger: string,
+            action: string,
+            resumeOnExit: boolean
+        ): Promise<void>;
         GetFileBase64(path: string): Promise<string | null>;
         TryOpenInstanceInVrc(launchUrl: string): Promise<boolean>;
 
