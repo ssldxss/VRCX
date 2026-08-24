@@ -1220,6 +1220,19 @@
                         "auto_close": "Auto Close Apps",
                         "run_process_once": "Open Single Instance of App"
                     },
+                    "wallpaper_engine": {
+                        "header": "Wallpaper Engine",
+                        "enable": "Pause Wallpaper Engine",
+                        "enable_tooltip": "Due to performance issues, many players manually close Wallpaper Engine when running VRChat. When enabled, VRCX pauses or stops a running Wallpaper Engine while the selected trigger is active, and resumes it when the trigger exits.",
+                        "trigger": "Pause When",
+                        "trigger_vrchat": "VRChat is running",
+                        "trigger_steamvr": "SteamVR is running",
+                        "action": "Action",
+                        "action_stop": "Stop Wallpaper Engine",
+                        "action_pause": "Pause Wallpaper Engine",
+                        "resume": "Resume When Trigger Exits",
+                        "resume_tooltip": "When the trigger exits, VRCX sends 'play' to Wallpaper Engine to resume it. Disable to leave it stopped/paused."
+                    },
                     "cache_debug": {
                         "header": "VRCX Instance Cache/Debug",
                         "udon_exception_logging": "Udon Exception Logging",

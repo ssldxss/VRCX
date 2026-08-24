@@ -121,6 +121,64 @@
             </SettingsGroup>
         </template>
 
+        <template v-if="isWindows">
+            <SettingsGroup :title="t('view.settings.advanced.advanced.wallpaper_engine.header')">
+                <SettingsItem
+                    :label="t('view.settings.advanced.advanced.wallpaper_engine.enable')"
+                    :description="t('view.settings.advanced.advanced.wallpaper_engine.enable_tooltip')">
+                    <Switch
+                        :model-value="wallpaperPauseEnabled"
+                        :ariaLabel="t('view.settings.advanced.advanced.wallpaper_engine.enable')"
+                        @update:modelValue="setWallpaperPauseEnabled" />
+                </SettingsItem>
+
+                <SettingsItem :label="t('view.settings.advanced.advanced.wallpaper_engine.trigger')">
+                    <Select :model-value="wallpaperPauseTrigger" @update:modelValue="setWallpaperPauseTrigger">
+                        <SelectTrigger class="w-48">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="vrchat">{{
+                                    t('view.settings.advanced.advanced.wallpaper_engine.trigger_vrchat')
+                                }}</SelectItem>
+                                <SelectItem value="steamvr">{{
+                                    t('view.settings.advanced.advanced.wallpaper_engine.trigger_steamvr')
+                                }}</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </SettingsItem>
+
+                <SettingsItem :label="t('view.settings.advanced.advanced.wallpaper_engine.action')">
+                    <Select :model-value="wallpaperPauseAction" @update:modelValue="setWallpaperPauseAction">
+                        <SelectTrigger class="w-48">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="stop">{{
+                                    t('view.settings.advanced.advanced.wallpaper_engine.action_stop')
+                                }}</SelectItem>
+                                <SelectItem value="pause">{{
+                                    t('view.settings.advanced.advanced.wallpaper_engine.action_pause')
+                                }}</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </SettingsItem>
+
+                <SettingsItem
+                    :label="t('view.settings.advanced.advanced.wallpaper_engine.resume')"
+                    :description="t('view.settings.advanced.advanced.wallpaper_engine.resume_tooltip')">
+                    <Switch
+                        :model-value="wallpaperPauseResumeOnExit"
+                        :ariaLabel="t('view.settings.advanced.advanced.wallpaper_engine.resume')"
+                        @update:modelValue="setWallpaperPauseResumeOnExit" />
+                </SettingsItem>
+            </SettingsGroup>
+        </template>
+
         <SettingsGroup :title="t('view.settings.advanced.advanced.launch_commands.header')">
             <SettingsItem
                 :label="t('view.settings.advanced.advanced.launch_commands.show_confirmation_on_switch_avatar_enable')"
@@ -491,6 +549,10 @@
         enableAppLauncher,
         enableAppLauncherAutoClose,
         enableAppLauncherRunProcessOnce,
+        wallpaperPauseEnabled,
+        wallpaperPauseTrigger,
+        wallpaperPauseAction,
+        wallpaperPauseResumeOnExit,
         showConfirmationOnSwitchAvatar,
         gameLogDisabled,
         sqliteTableSizes,
@@ -507,6 +569,10 @@
         setEnableAppLauncher,
         setEnableAppLauncherAutoClose,
         setEnableAppLauncherRunProcessOnce,
+        setWallpaperPauseEnabled,
+        setWallpaperPauseTrigger,
+        setWallpaperPauseAction,
+        setWallpaperPauseResumeOnExit,
         setShowConfirmationOnSwitchAvatar,
         getSqliteTableSizes,
         setAvatarAutoCleanup,
@@ -530,6 +596,7 @@
     });
 
     const isLinux = computed(() => LINUX);
+    const isWindows = computed(() => WINDOWS);
 
     function handlePurge() {
         const days = selectedPurgePeriod.value === 'all' ? null : parseInt(selectedPurgePeriod.value, 10);
