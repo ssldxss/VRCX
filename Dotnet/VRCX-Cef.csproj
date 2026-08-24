@@ -115,13 +115,15 @@
     <CallTarget Targets="CefSharpAfterBuildDiagnostic" />
   </Target>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(IsWindows)' == 'true'">
     <Exec Command="&quot;$(ProjectDir)..\Dotnet\build-tools\Topten.nvpatch.exe&quot; --enable &quot;$(ProjectDir)..\build\Cef\VRCX.exe&quot;" />
   </Target>
 
   <ItemGroup>
     <Content Remove="obj1\**" />
     <Compile Remove="obj1\**" />
+    <Content Remove="obj\**" />
+    <Compile Remove="obj\**" />
     <Content Remove="AppApi\Electron\**" />
     <Compile Remove="AppApi\Electron\**" />
     <Content Remove="Overlay\Electron\**" />
@@ -130,7 +132,7 @@
     <Compile Remove="VRCX.Tests\**" />
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(IsWindows)' == 'true'">
     <Exec Command="&quot;$(ProjectDir)..\build-scripts\make-junction.cmd&quot;" />
   </Target>
 </Project>
