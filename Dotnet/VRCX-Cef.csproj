@@ -126,6 +126,8 @@
     <Compile Remove="AppApi\Electron\**" />
     <Content Remove="Overlay\Electron\**" />
     <Compile Remove="Overlay\Electron\**" />
+    <Content Remove="VRCX.Tests\**" />
+    <Compile Remove="VRCX.Tests\**" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

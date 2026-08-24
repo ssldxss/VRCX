@@ -1,0 +1,681 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VRCX-Electron</name>
+    </assembly>
+    <members>
+        <member name="M:VRCX.AppApi.OVRTNotification(System.Boolean,System.Boolean,System.String,System.String,System.Int32,System.Double,System.String)">
+            <summary>
+            Displays an OVRToolkit notification with the specified title and body.
+            HUD notification - Visible in the lower part of the HMD view and moves with the head.
+            Wrist notification - Visible above the wristwatch until cleared by the user via the 'X' icon.
+            </summary>
+            <param name="hudNotification">Whether or not to display a HUD notification.</param>
+            <param name="wristNotification">Whether or not to display a Wrist notification.</param>
+            <param name="title">The title of the notification.</param>
+            <param name="body">The content of the notification.</param>
+            <param name="timeout">[CURRENTLY UNUSED]The timeout of the notification.</param>
+            <param name="opacity">The opacity of the notification (0.0 to 1.0).</param>
+            <param name="image">The image of the notification.</param>
+        </member>
+        <member name="M:VRCX.AppApi.ScreenshotRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>\\\\Prints\\\\|\\\\Stickers\\\\|\\\\Emoji\\\\</code><br/>
+            Options:<br/>
+            <code>RegexOptions.IgnoreCase</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match '\\'.<br/>
+            ○ Match with 3 alternative expressions, atomically.<br/>
+                ○ Match a sequence of expressions.<br/>
+                    ○ Match a character in the set [Pp].<br/>
+                    ○ Match a character in the set [Rr].<br/>
+                    ○ Match a character in the set [Ii\u0130].<br/>
+                    ○ Match a character in the set [Nn].<br/>
+                    ○ Match a character in the set [Tt].<br/>
+                    ○ Match a character in the set [Ss].<br/>
+                    ○ Match '\\'.<br/>
+                ○ Match a sequence of expressions.<br/>
+                    ○ Match a character in the set [Ss].<br/>
+                    ○ Match a character in the set [Tt].<br/>
+                    ○ Match a character in the set [Ii\u0130].<br/>
+                    ○ Match a character in the set [Cc].<br/>
+                    ○ Match a character in the set [Kk\u212A].<br/>
+                    ○ Match a character in the set [Ee].<br/>
+                    ○ Match a character in the set [Rr].<br/>
+                    ○ Match a character in the set [Ss].<br/>
+                    ○ Match '\\'.<br/>
+                ○ Match a sequence of expressions.<br/>
+                    ○ Match a character in the set [Ee].<br/>
+                    ○ Match a character in the set [Mm].<br/>
+                    ○ Match a character in the set [Oo].<br/>
+                    ○ Match a character in the set [Jj].<br/>
+                    ○ Match a character in the set [Ii\u0130].<br/>
+                    ○ Match '\\'.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="M:VRCX.AppApi.XSNotification(System.String,System.String,System.Int32,System.Double,System.String)">
+            <summary>
+            Displays an XSOverlay notification with the specified title, content, and optional image.
+            </summary>
+            <param name="title">The title of the notification.</param>
+            <param name="content">The content of the notification.</param>
+            <param name="timeout">The duration of the notification in milliseconds.</param>
+            <param name="opacity">The opacity of the notification (0.0 to 1.0).</param>
+            <param name="image">The optional image to display in the notification.</param>
+        </member>
+        <member name="M:VRCX.AppApiElectron.CheckGameRunning">
+            <summary>
+            for Cef only, checks if VRChat and SteamVR are currently running and updates the browser using JavaScript with the results.
+            </summary>
+        </member>
+        <member name="M:VRCX.AssetBundleManager.GetVRChatCacheFullLocation(System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            Gets the full location of the VRChat cache for a specific asset bundle.
+            </summary>
+            <param name="id">The ID of the asset bundle.</param>
+            <param name="version">The version of the asset bundle.</param>
+            <param name="variant">The variant of the asset bundle.</param>
+            <param name="variantVersion">The version of the variant of the asset bundle.</param>
+            <returns>The full location of the VRChat cache for the specified asset bundle.</returns>
+        </member>
+        <member name="M:VRCX.AssetBundleManager.CheckVRChatCache(System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            Checks the VRChat cache for a specific asset bundle.
+            </summary>
+            <param name="id">The ID of the asset bundle.</param>
+            <param name="version">The version of the asset bundle.</param>
+            <param name="variant">The variant of the asset bundle.</param>
+            <param name="variantVersion">The version of the variant of the asset bundle.</param>
+            <returns>A Tuple containing the file size, lock status and path of the asset bundle.</returns>
+        </member>
+        <member name="M:VRCX.AssetBundleManager.DeleteCache(System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            Deletes the cache directory for a specific asset bundle.
+            </summary>
+            <param name="id">The ID of the asset bundle to delete.</param>
+            <param name="version">The version of the asset bundle to delete.</param>
+            <param name="variant">The variant of the asset bundle to delete.</param>
+            <param name="variantVersion">The version of the variant of the asset bundle to delete.</param>
+        </member>
+        <member name="M:VRCX.AssetBundleManager.DeleteAllCache">
+            <summary>
+            Deletes the entire VRChat cache directory.
+            </summary>
+        </member>
+        <member name="M:VRCX.AssetBundleManager.SweepCache">
+            <summary>
+            Removes empty directories from the VRChat cache directory and deletes old versions of cached asset bundles.
+            </summary>
+        </member>
+        <member name="M:VRCX.AssetBundleManager.GetCacheSize">
+            <summary>
+            Returns the size of the VRChat cache directory in bytes.
+            </summary>
+            <returns>The size of the VRChat cache directory in bytes.</returns>
+        </member>
+        <member name="M:VRCX.AssetBundleManager.DirSize(System.IO.DirectoryInfo)">
+            <summary>
+            Recursively calculates the size of a directory and all its subdirectories.
+            </summary>
+            <param name="d">The directory to calculate the size of.</param>
+            <returns>The size of the directory and all its subdirectories in bytes.</returns>
+        </member>
+        <member name="T:VRCX.AutoAppLaunchManager">
+            <summary>
+            The class responsible for launching user-defined applications when VRChat opens/closes.
+            </summary>
+        </member>
+        <member name="F:VRCX.AutoAppLaunchManager.KillChildrenOnExit">
+            <summary> Whether or not to kill child processes when VRChat closes. </summary>
+        </member>
+        <member name="M:VRCX.AutoAppLaunchManager.KillChildProcesses">
+            <summary>
+            Kills all running child processes.
+            </summary>
+        </member>
+        <member name="M:VRCX.AutoAppLaunchManager.FindChildProcesses(System.Int32,System.Boolean)">
+            <summary>
+            Returns the child processes of a process.
+            </summary>
+            <param name="pid">The process ID of the parent process.</param>
+        </member>
+        <member name="M:VRCX.AutoAppLaunchManager.KillProcessTree(System.Int32)">
+            <summary>
+            Kills a process and all of its child processes.
+            </summary>
+            <param name="pid">The process ID of the parent process.</param>
+        </member>
+        <member name="M:VRCX.AutoAppLaunchManager.StartChildProcess(System.String)">
+            <summary>
+            Starts a new child process.
+            </summary>
+            <param name="path">The path.</param>
+        </member>
+        <member name="M:VRCX.AutoAppLaunchManager.UpdateChildProcesses">
+            <summary>
+            Updates the child processes list.
+            Removes any processes that have exited.
+            </summary>
+        </member>
+        <member name="M:VRCX.AutoAppLaunchManager.IsChildProcessRunning(System.String)">
+            <summary>
+            Checks to see if a given file matches a current running child process.
+            </summary>
+            <param name="path">The path.</param>
+            <returns>
+              <c>true</c> if child process running; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:VRCX.AutoAppLaunchManager.FindShortcutFiles(System.String)">
+            <summary>
+            Finds windows shortcut files in a given folder.
+            </summary>
+            <param name="folderPath">The folder path.</param>
+            <returns>An array of shortcut paths. If none, then empty.</returns>
+        </member>
+        <member name="M:VRCX.AutoAppLaunchManager.IsShortcutFile(System.String)">
+            <summary>
+            Determines whether the specified file path is a shortcut by checking the file header.
+            </summary>
+            <param name="filePath">The file path.</param>
+            <returns><c>true</c> if the given file path is a shortcut, otherwise <c>false</c></returns>
+        </member>
+        <member name="T:VRCX.LogWatcher">
+            <summary>
+            Monitors the VRChat log files for changes and provides access to the log data.
+            </summary>
+        </member>
+        <member name="M:VRCX.LogWatcher.Update">
+            <summary>
+            Updates the log watcher by checking for new log files and updating the log list.
+            </summary>
+        </member>
+        <member name="M:VRCX.LogWatcher.ParseLog(System.IO.FileInfo,VRCX.LogWatcher.LogContext)">
+            <summary>
+            Parses the log file starting from the current position and updates the log context.
+            </summary>
+            <param name="fileInfo">The file information of the log file to parse.</param>
+            <param name="logContext">The log context to update.</param>
+        </member>
+        <member name="M:VRCX.AppApiVrElectron.CpuUsage">
+            <summary>
+            Returns the current CPU usage as a percentage.
+            </summary>
+            <returns>The current CPU usage as a percentage.</returns>
+        </member>
+        <member name="M:VRCX.AppApiVrElectron.GetVRDevices">
+            <summary>
+            Returns an array of arrays containing information about the connected VR devices.
+            Each sub-array contains the type of device and its current state
+            </summary>
+            <returns>An array of arrays containing information about the connected VR devices.</returns>
+        </member>
+        <member name="M:VRCX.AppApiVrElectron.GetUptime">
+            <summary>
+            Returns the number of milliseconds that the system has been running.
+            </summary>
+            <returns>The number of milliseconds that the system has been running.</returns>
+        </member>
+        <member name="M:VRCX.AppApiVrElectron.CurrentCulture">
+            <summary>
+            Returns the current language of the operating system.
+            </summary>
+            <returns>The current language of the operating system.</returns>
+        </member>
+        <member name="M:VRCX.AppApiVrElectron.CustomVrScript">
+            <summary>
+            Returns the file path of the custom user js file, if it exists.
+            </summary>
+            <returns>The file path of the custom user js file, or an empty string if it doesn't exist.</returns>
+        </member>
+        <member name="T:VRCX.ProcessMonitor">
+            <summary>
+                A class that monitors given processes and raises events when they are started or exited.
+                Intended to be used to monitor VRChat and VRChat-related processes.
+            </summary>
+        </member>
+        <member name="E:VRCX.ProcessMonitor.ProcessStarted">
+            <summary>
+                Raised when a monitored process is started.
+            </summary>
+        </member>
+        <member name="E:VRCX.ProcessMonitor.ProcessExited">
+            <summary>
+                Raised when a monitored process is exited.
+            </summary>
+        </member>
+        <member name="M:VRCX.ProcessMonitor.IsProcessRunning(System.String,System.Boolean)">
+            <summary>
+                Checks if a process if currently being monitored and if it is running.
+            </summary>
+            <param name="processName">The name of the process to check for.</param>
+            <param name="ensureCheck">If true, will manually check if the given process is running should the the monitored process not be initialized yet.</param>
+            <returns>Whether the given process is monitored and currently running.</returns>
+        </member>
+        <member name="M:VRCX.ProcessMonitor.AddProcess(System.Diagnostics.Process)">
+            <summary>
+                Adds a process to be monitored.
+            </summary>
+            <param name="process"></param>
+        </member>
+        <member name="M:VRCX.ProcessMonitor.AddProcess(System.String)">
+            <summary>
+                Adds a process to be monitored.
+            </summary>
+            <param name="processName"></param>
+        </member>
+        <member name="M:VRCX.ProcessMonitor.RemoveProcess(System.String)">
+            <summary>
+                Removes a process from being monitored.
+            </summary>
+            <param name="processName"></param>
+        </member>
+        <member name="M:VRCX.PNGChunk.IsZero">
+            <summary>
+            Checks if the chunk data is empty
+            </summary>
+            <returns>True if the chunk data is empty, false otherwise</returns>
+        </member>
+        <member name="M:VRCX.PNGChunk.ReadITXtChunk">
+            <summary>
+            Reads an iTXt chunk and returns the keyword and text
+            </summary>
+            <returns>A tuple of the keyword and text in the iTXt chunk (keyword, text)</returns>
+            <exception cref="T:System.Exception">Thrown if the chunk is invalid or not an iTXt chunk</exception>
+        </member>
+        <member name="M:VRCX.PNGChunk.ReadIHDRChunkResolution">
+            <summary>
+            Reads the IHDR chunk to extract the resolution of the PNG image.
+            </summary>
+            <returns>A tuple containing the width and height of the image. (width, height)</returns>
+            <exception cref="T:System.Exception">Thrown if the chunk is invalid or not an IHDR chunk.</exception>
+        </member>
+        <member name="M:VRCX.PNGChunk.ExistsInFile(System.IO.FileStream)">
+            <summary>
+            Validates this chunk against the chunk at the same index in a given file stream, checking the chunk length and CRC.
+            </summary>
+            <param name="fileStream">The file stream from which the chunk data is read for validation.</param>
+            <returns>True if chunk exists at index and is valid, false otherwise.</returns>
+        </member>
+        <member name="M:VRCX.PNGChunk.GetBytes">
+            <summary>
+            Constructs and returns a byte array representation of the PNG chunk. Generates a CRC.
+            This data can be added to a PNG file as-is.
+            </summary>
+            <returns>A byte array containing the length, chunk type, data, and CRC of the chunk.</returns>
+            <remarks>
+            The byte array is structured as follows:
+            - 4 bytes: Length of the data in big-endian format.
+            - 4 bytes: ASCII encoded chunk type.
+            - N bytes: Chunk data.
+            - 4 bytes: CRC of the chunk type and data, in big-endian format.
+            </remarks>
+        </member>
+        <member name="M:VRCX.PNGFile.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:VRCX.PNGFile"/> class with the specified file path.
+            Opens the PNG file for reading and writing.
+            </summary>
+            <param name="filePath">The path to the PNG file to open for reading and writing.</param>
+            <param name="writeAccess">Open file with write permissions.</param>
+        </member>
+        <member name="M:VRCX.PNGFile.GetChunk(VRCX.PNGChunkTypeFilter)">
+            <summary>
+            Retrieves the first PNG chunk of the specified type from the file, or null if none were found.
+            </summary>
+            <param name="chunkTypeFilter">The type of chunk to search for.</param>
+            <returns>The first chunk of the specified type, or null if none were found.</returns>
+        </member>
+        <member name="M:VRCX.PNGFile.GetChunkReverse(VRCX.PNGChunkTypeFilter)">
+            <summary>
+            Retrieves a PNG chunk of the specified type by searching from the last 8KB of the file to the end of the file.
+            </summary>
+            <param name="chunkTypeFilter">The type of chunk to search for.</param>
+            <returns>The first chunk of the specified type found, or <c>null</c> if no such chunk exists or the chunk is empty.</returns>
+            <remarks>
+            This method is only intended to be used to find chunks added by legacy vrc mods that append data at the end of the file.
+            </remarks>
+        </member>
+        <member name="M:VRCX.PNGFile.GetChunks">
+            <summary>
+            Retrieves a list of all PNG metadata chunks read from the file, in order.
+            </summary>
+            <returns>A list of <see cref="T:VRCX.PNGChunk"/> objects, which represent PNG metadata chunks.</returns>
+            <remarks>
+            If the metadata cache is empty, it will first populate the cache by reading from the file.
+            </remarks>
+        </member>
+        <member name="M:VRCX.PNGFile.WriteChunk(VRCX.PNGChunk)">
+            <summary>
+            Writes a new PNG chunk at the position immediately following the last cached PNG metadata chunk(before the first IDAT).
+            </summary>
+            <param name="chunk">The PNGChunk to write to the file stream.</param>
+            <returns>True if the chunk was successfully written, otherwise false if the metadata cache is empty or the last chunk is invalid.</returns>
+        </member>
+        <member name="M:VRCX.PNGFile.DeleteChunk(VRCX.PNGChunk)">
+            <summary>
+            Deletes a PNG chunk from the file.
+            </summary>
+            <param name="chunk">The PNG chunk to delete. Needs a valid index set.</param>
+            <returns>True if the chunk was successfully deleted, otherwise false.</returns>
+        </member>
+        <member name="M:VRCX.PNGFile.GetChunksOfType(VRCX.PNGChunkTypeFilter)">
+            <summary>
+            Retrieves all PNG metadata chunks of a specified type
+            </summary>
+            <param name="chunkTypeFilter">The type of chunk to search for.</param>
+            <returns>A list of <see cref="T:VRCX.PNGChunk"/> objects that match the specified type.</returns>
+            <remarks>
+            If the metadata cache is empty, it will first populate the cache by reading from the file.
+            </remarks>
+        </member>
+        <member name="M:VRCX.PNGFile.ReadChunks">
+            <summary>
+            Reads PNG metadata chunks
+            </summary>
+            <returns>An enumerable collection of <see cref="T:VRCX.PNGChunk"/> objects found in the file.</returns>
+            <remarks>
+            Each chunk is represented by a <see cref="T:VRCX.PNGChunk"/> object containing its length, type, and data.
+            This method reads chunks sequentially from the start of the file, up to a maximum of 
+            <see cref="F:VRCX.PNGFile.MAX_CHUNKS_TO_READ"/> chunks. It stops on encountering the "IDAT" or "IEND".
+            </remarks>
+        </member>
+        <member name="M:VRCX.PNGFile.ReadChunkReverse(VRCX.PNGChunkTypeFilter)">
+            <summary>
+            Reads a PNG chunk from the end of the file, backtracking and bruteforce matching to find the first chunk of the given type.
+            </summary>
+            <param name="chunkTypeFilter">The type of chunk to search for.</param>
+            <returns>The first chunk of the given type, if any were found, or <c>null</c> if none were found.</returns>
+            <remarks>
+            This method is used to find chunks added by mods that do not follow the PNG spec and append chunks to the end of the file.
+            </remarks>
+        </member>
+        <member name="M:VRCX.PNGFile.ReadAndCacheMetadata">
+            <summary>
+            Reads PNG metadata chunks from the file and caches them for later use.
+            </summary>
+            <remarks>
+            This method populates <see cref="F:VRCX.PNGFile.metadataChunkCache"/> with PNG chunks from <see cref="M:VRCX.PNGFile.ReadChunks"/>.
+            The method is intended to ensure that the metadata is available for multiple operations and avoid unnecessary IO.
+            </remarks>
+        </member>
+        <member name="M:VRCX.PNGFile.IsValid">
+            <summary>
+                Determines whether this is a valid PNG file. We do this by checking if the first 8 bytes in the file path match the PNG signature and the file is a minimum size of 57 bytes.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VRCX.PNGFile.Dispose">
+            <summary>
+                Disposes of the file stream.
+            </summary>
+        </member>
+        <member name="M:VRCX.PNGHelper.ReadTextChunk(System.String,VRCX.PNGFile,System.Boolean)">
+            <summary>
+            Reads the metadata associated with a specified keyword from text chunks within a PNG file.
+            </summary>
+            <param name="keyword">The unique keyword for a speicifc text chunk to search for.</param>
+            <param name="pngFile">The PNG file containing the chunks to be searched.</param>
+            <param name="legacySearch">
+            Specifies whether to search for legacy text chunks created by older VRChat mods.
+            If true, the function searches from the end of the file using a reverse search bruteforce method.
+            </param>
+            <returns>The text associated with the specified keyword, or null if not found.</returns>
+        </member>
+        <member name="M:VRCX.PNGHelper.GenerateTextChunk(System.String,System.String)">
+            <summary>
+            Generates a PNG text chunk ready for writing.
+            </summary>
+            <param name="keyword">The keyword to write to the text chunk.</param>
+            <param name="text">The text to write to the text chunk.</param>
+            <returns>The binary data for the text chunk.</returns>
+        </member>
+        <member name="M:VRCX.ScreenshotHelper.ReadTextMetadata(System.String)">
+            <summary>
+            Reads textual metadata from a PNG image file.
+            </summary>
+            <param name="path">The path to the PNG image file.</param>
+            <returns>A list of metadata strings found in the image file.</returns>
+            <remarks>
+            This function reads all the text chunks from the PNG image file and returns them as a list.
+            For VRChat screenshots, the list will contain the "XML:com.adobe.xmp"(VRChat, usually) and "Description"(VRCX) chunks, with the VRChat metadata always coming first if available.
+            The strings are not guaranteed to be valid metadata.
+            If no metadata is found, an empty list is returned.
+            </remarks>
+        </member>
+        <member name="M:VRCX.ScreenshotHelper.IsPNGFile(System.String)">
+            <summary>
+                Determines whether the specified file is a PNG file. We do this by checking if the first 8 bytes in the file path match the PNG signature.
+            </summary>
+            <param name="path">The path of the file to check.</param>
+            <returns></returns>
+        </member>
+        <member name="M:VRCX.ScreenshotHelper.ParseLfsPicture(System.String)">
+            <summary>
+            Parses the metadata string of a vrchat screenshot with taken with LFS and returns a JObject containing the parsed data.
+            </summary>
+            <param name="metadataString">The metadata string to parse.</param>
+            <returns>A JObject containing the parsed data.</returns>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.Application">
+            <summary>
+            Name of the application writing to the screenshot. Should be VRCX.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.Version">
+            <summary>
+            The version of this schema. If the format changes, this number should change.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.Author">
+            <summary>
+            The details of the user that took the picture.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.World">
+            <summary>
+            Information about the world the picture was taken in.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.Players">
+            <summary>
+            A list of players in the world at the time the picture was taken.
+            </summary>
+        </member>
+        <member name="F:VRCX.ScreenshotMetadata.SourceFile">
+            <summary>
+            If this class was serialized from a file, this should be the path to the file.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.Pos">
+            <summary>
+            The position of the player that took the picture when the shot was taken. Not written by VRCX, this is legacy support for reading LFS files.
+            </summary>
+        </member>
+        <member name="F:VRCX.ScreenshotMetadata.Error">
+            <summary>
+            Any error that occurred while parsing the file. This being true implies nothing else is set.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.AuthorDetail.Id">
+            <summary>
+            The ID of the user.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.AuthorDetail.DisplayName">
+            <summary>
+            The display name of the user.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.WorldDetail.Id">
+            <summary>
+            The ID of the world.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.WorldDetail.Name">
+            <summary>
+            The name of the world.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.WorldDetail.InstanceId">
+            <summary>
+            The full ID of the game instance.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.PlayerDetail.Id">
+            <summary>
+            The ID of the player in the world.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.PlayerDetail.DisplayName">
+            <summary>
+            The display name of the player in the world.
+            </summary>
+        </member>
+        <member name="P:VRCX.ScreenshotMetadata.PlayerDetail.Pos">
+            <summary>
+            The position of the player in the world. Not written by VRCX, this is legacy support for reading LFS files.
+            </summary>
+        </member>
+        <member name="T:VRCX.WallpaperEngineManager">
+            <summary>
+            Monitors the configured VR trigger (SteamVR or VRChat) and pauses/stops
+            Wallpaper Engine while it is running, resuming it when the trigger exits.
+            Only acts on an already-running Wallpaper Engine instance — it never
+            launches one, except to resume after we paused/stopped it.
+            </summary>
+        </member>
+        <member name="F:VRCX.WallpaperEngineManager.WallpaperProcessNames">
+            <summary>Process names Wallpaper Engine may run under (32/64 bit, incl. web process).</summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.Start">
+            <summary>Starts the polling timer. Idempotent.</summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.UpdateSettings(System.Boolean,System.String,System.String,System.Boolean)">
+            <summary>
+            Applies new settings from the UI. Invalid trigger/action values are
+            ignored (previous value kept). Idempotently starts the poll timer.
+            </summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.Evaluate(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            Pure state-machine core: given the previous state and the current
+            inputs, decides which control command (if any) to send and the new
+            "paused by us" state.
+            </summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.Tick">
+            <summary>One polling iteration: reads current state, runs <see cref="M:VRCX.WallpaperEngineManager.Evaluate(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)"/>, applies the result.</summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.IsWallpaperEngineRunning">
+            <summary>Returns true if any Wallpaper Engine process is currently running.</summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.SendControl(System.String)">
+            <summary>Sends a -control command (stop/pause/play) to Wallpaper Engine. Returns true on success.</summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.FindRunningWallpaperExe">
+            <summary>
+            Returns the exe path of a currently running Wallpaper Engine process,
+            preferring wallpaper32.exe from its install directory.
+            </summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.FindWallpaperEngineExe">
+            <summary>
+            Locates the Wallpaper Engine executable via the Steam installation
+            (registry SteamPath + steamapps/libraryfolders.vdf libraries).
+            Returns the exe path or null.
+            </summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.ParseLibraryFoldersVdf(System.String)">
+            <summary>Extracts library folder paths from libraryfolders.vdf content.</summary>
+        </member>
+        <member name="M:VRCX.WallpaperEngineManager.UnescapeVdf(System.String)">
+            <summary>Single-pass VDF unescape: \X → X.</summary>
+        </member>
+        <member name="F:VRCX.WinApi.PROCESS_QUERY_LIMITED_INFORMATION">
+            <summary>
+            Flag that specifies the access rights to query limited information about a process.
+            This won't throw an exception when we try to access info about an elevated process
+            </summary>
+        </member>
+        <member name="M:VRCX.WinApi.HasProcessExited(System.Int32)">
+            <summary>
+            Determines whether the specified process has exited using WinAPI's GetExitCodeProcess running with PROCESS_QUERY_LIMITED_INFORMATION.
+            We do this because Process.HasExited in .net framework opens a handle with PROCESS_QUERY_INFORMATION, which will throw an exception if the process is elevated.
+            GetExitCodeProcess works with PROCESS_QUERY_LIMITED_INFORMATION, which will not throw an exception if the process is elevated.
+            https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getexitcodeprocess
+            </summary>
+            <param name="process">The process to check.</param>
+            <returns>true if the process has exited; otherwise, false.</returns>
+        </member>
+        <member name="M:GLTextureWriter.WriteImageToBuffer(System.Byte[])">
+            <summary>
+            Copies image data into the internal buffer.
+            </summary>
+        </member>
+        <member name="M:GLTextureWriter.UpdateTexture">
+            <summary>
+            Updates the OpenGL texture with the current buffer.
+            </summary>
+        </member>
+        <member name="M:GLTextureWriter.AsTextureT">
+            <summary>
+            Returns a Texture_t structure for use with OpenVR.
+            </summary>
+        </member>
+        <member name="M:Valve.VR.OpenVR.Init(Valve.VR.EVRInitError@,Valve.VR.EVRApplicationType,System.String)">
+            Finds the active installation of vrclient.dll and initializes it 
+        </member>
+        <member name="M:Valve.VR.OpenVR.Shutdown">
+            unloads vrclient.dll. Any interface pointers from the interface are
+            invalid after this point 
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ScreenshotRegex_0">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the ScreenshotRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.ScreenshotRegex_0.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ScreenshotRegex_0.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ScreenshotRegex_0.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ScreenshotRegex_0.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.ScreenshotRegex_0.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ScreenshotRegex_0.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ScreenshotRegex_0.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.ScreenshotRegex_0.RunnerFactory.Runner.TryMatchAtCurrentPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Determine whether <paramref name="inputSpan"/> at base.runtextpos is a match for the regular expression.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if the regular expression matches at the current position; otherwise, false.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.Utilities">
+            <summary>Helper methods used by generated <see cref="T:System.Text.RegularExpressions.Regex"/>-derived implementations.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout">
+            <summary>Default timeout value set in <see cref="T:System.AppContext"/>, or <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout"/> if none was set.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
+            <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_indexOfAnyStrings_OrdinalIgnoreCase_9B037DBDE471889C875655B23E954462C16D3904671C5234EFC6C672872BB2E1">
+            <summary>Supports searching for the specified strings.</summary>
+        </member>
+    </members>
+</doc>

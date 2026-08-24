@@ -93,6 +93,8 @@
     <Compile Remove="OverlayWebSocket\**" />
     <Content Remove="DBMerger\**" />
     <Compile Remove="DBMerger\**" />
+    <Content Remove="VRCX.Tests\**" />
+    <Compile Remove="VRCX.Tests\**" />
   </ItemGroup>
 
   <ItemGroup>
